@@ -1,0 +1,8 @@
+{
+    "sql_db_host": "localhost",
+    "sql_db_user": "root",
+    "sql_db_pass": "",
+    "sql_db_name": "rec",
+    "site_url": "http://localhost/rec",
+    "purchase_code": ""
+}
