@@ -10,6 +10,8 @@
 // +------------------------------------------------------------------------+
 require_once('assets/init.php');
 
+
+
 if ($wo['loggedin'] == true) {
     $update_last_seen = Wo_LastSeen($wo['user']['user_id']);
 } else if (!empty($_SERVER['HTTP_HOST'])) {

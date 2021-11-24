@@ -1,5 +1,8 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<style>
+.ui-autocomplete { z-index:2147483647; }
+</style>
 <div class="wo_settings_page wow_content">
 	<div class="avatar-holder">
 		<img src="<?php echo $wo['setting']['avatar']?>" alt="<?php echo $wo['setting']['name']?> Profile Picture" class="avatar">
@@ -160,7 +163,7 @@
 	</div>
 </div>
 
-<div class="modal fade" id="school_list" role="dialog" x-data="schoolData">
+<div class="modal fade" id="school_list" role="dialog" x-data="schoolData" @load-school-list.window="getListSchool">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -183,15 +186,22 @@
 						<th><?php echo $wo['lang']['from_year']; ?></th>
 						<th><?php echo $wo['lang']['to_year']; ?></th>
 						<th><?php echo $wo['lang']['school_attachment']; ?></th>
+						<th></th>
 					</tr>
 					<template x-for="(sch,index) in listSchool" :key="sch.school_name">
+					<tr>
 						<td x-text="index+1"></td>
 						<td x-text="sch.school_grade"></td>
+						<td x-text="sch.school_name"></td>
 						<td x-text="sch.field_of_study"></td>
 						<td x-text="sch.school_completed"></td>
 						<td x-text="sch.from_year"></td>
 						<td x-text="sch.to_year"></td>
-						<td x-text="attachment(sch.school_attachment)"></td>
+						<td><a :href="'<?php echo $wo['config']['site_url']; ?>/'+sch.school_attachment" target="_blank"><?= $wo['lang']['school_attachment']; ?></a></td>
+						<td><button class="btn btn-primary btn-sm" @click="editRow(index)">Edit</button>
+							<button class="btn btn-danger btn-sm" @click="deleteRow(sch.id)">Del</button>
+						</td>
+					</tr>
 					</template>
 				</table>
 			</div>
@@ -202,7 +212,7 @@
 	</div>
 </div>
 
-<div class="modal fade" id="school_form" role="dialog" x-data="schoolForm">
+<div class="modal fade" id="school_form" role="dialog" x-data="schoolForm" @set-row.window="setRow($event.detail)">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -229,7 +239,7 @@
 					</div>
 					<div class="wow_form_fields">
 						<label for="school_name"><?php echo $wo['lang']['school_name']; ?></label>  
-						<input x-model="form.school_grade" id="school_name" name="school_name" type="text" placeholder="<?php echo  $wo['lang']['school_name']; ?>">
+						<input x-model="form.school_name" id="school_name" name="school_name" type="text" placeholder="<?php echo  $wo['lang']['school_name']; ?>">
 					</div>
 					<div class="wow_form_fields">
 						<label for="field_of_study"><?php echo $wo['lang']['field_of_study']; ?></label>  
@@ -382,12 +392,43 @@ $(function() {
 	 Alpine.data("schoolData",() => ({
 		listSchool:[],
 		init() {
-			$.post(Wo_Ajax_Requests_File()+"f=get_school_data",{user_id:<?php echo $wo['setting']['user_id'];?>}).done(resp => {
-				this.listSchool = resp.school;
+			this.getListSchool()
+		},
+		getListSchool() {
+			$.post(Wo_Ajax_Requests_File()+"?f=get_school_data",{user_id:<?php echo $wo['setting']['user_id'];?>}).done(resp => {
+				this.listSchool = resp;
+				
 			})
 		},
 		addSchool() {
+			let form = {
+				user_id:<?php echo $wo['setting']['user_id'];?>,
+				school_grade:"",
+				school_name:"",
+				school_completed:0,
+				field_of_study:"",
+				from_year:"",
+				to_year:"",
+				id:0
+			};
+			this.$dispatch('set-row',form);
 			$('#school_form').modal('show');
+		},
+		editRow(index) {
+			//alert(index);
+			$('#school_form').modal('show');
+			this.$dispatch('set-row',this.listSchool[index]);
+		},
+		deleteRow(id) {
+			if (confirm(" Are you sure you want to delete this School?")) {
+				$.post(Wo_Ajax_Requests_File()+'?f=delete_school',{id:id}).done(resp => {
+					if (resp.error == false) {
+						this.getListSchool()
+					} else {
+						alert("Error Delete School");
+					}
+				})
+			}
 		}
 	 }));
 	 
@@ -400,9 +441,10 @@ $(function() {
 			field_of_study:"",
 			from_year:"",
 			to_year:"",
-			attachment:""
+			id:0
 		},
 		init() {
+			var that = this;
 			$( "#school_name" ).autocomplete({
 			  source: function( request, response ) {
 				$.ajax( {
@@ -419,27 +461,40 @@ $(function() {
 			  minLength: 2,
 			  select: function( event, ui ) {
 				//log( "Selected: " + ui.item.value + " aka " + ui.item.id );
+				that.form.school_name = ui.item.label;
 			  }
 			} );
 		},
 		doSave() {
-			var files = $('#school_attachment')[0].files;
+			var file_data = $('#school_attachment').prop('files')[0]; 
 			var formData = new FormData();
-			formData.append('file',files);
+			formData.append('file',file_data);
 			for (form in this.form) {
 				formData.append(form,this.form[form]);
 			}
 			
 			 $.ajax({
-				url: Wo_Ajax_Requests_File+'?f=upsert_school',
+				url: Wo_Ajax_Requests_File()+'?f=upsert_school',
 				type: 'post',
 				data: formData,
 				contentType: false,
 				processData: false,
-				success: function(response){
-				 
-			  },
+				success: response => {
+					if (response.error == false) {
+						$('#school_form').modal('hide');
+						this.$dispatch('load-school-list');
+						$('.setting-profile-alert').html('<div class="alert alert-success">' + data.message + '</div>');
+						$('.alert-success').fadeIn('fast', function() {
+						  $(this).delay(2500).slideUp(500, function() {
+							$(this).remove();
+						  });
+						});
+					}
+				},
            });
+		},
+		setRow(row) {
+			this.form = row;
 		}
 	  }))
  });
