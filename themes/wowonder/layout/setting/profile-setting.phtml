@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 <div class="wo_settings_page wow_content">
 	<div class="avatar-holder">
 		<img src="<?php echo $wo['setting']['avatar']?>" alt="<?php echo $wo['setting']['name']?> Profile Picture" class="avatar">
@@ -229,10 +231,38 @@
 						<label for="school_name"><?php echo $wo['lang']['school_name']; ?></label>  
 						<input x-model="form.school_grade" id="school_name" name="school_name" type="text" placeholder="<?php echo  $wo['lang']['school_name']; ?>">
 					</div>
+					<div class="wow_form_fields">
+						<label for="field_of_study"><?php echo $wo['lang']['field_of_study']; ?></label>  
+						<input x-model="form.field_of_study" id="field_of_study" name="field_of_study" type="text" placeholder="<?php echo  $wo['lang']['field_of_study']; ?>">
+					</div>
+					<div class="row">
+						<div class="col-md-6 round-check">
+							<input type="checkbox" id="completed" name="school_completed" x-model="form.school_completed" value="1">
+							<label for="completed"><?php echo $wo['lang']['school_completed']; ?></label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="wow_form_fields">
+								<label for="from_year"><?php echo $wo['lang']['from_year']; ?></label>  
+								<input x-model="form.from_year" id="from_year" name="from_year" type="number">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="wow_form_fields">
+								<label for="to_year"><?php echo $wo['lang']['to_year']; ?></label>  
+								<input x-model="form.to_year" id="to_year" name="to_year" type="number">
+							</div>
+						</div>
+					</div>
+					<div class="wow_form_fields">
+						<label for="school_attachment"><?php echo $wo['lang']['school_attachment']; ?></label>  
+						<input type="file" id="school_attachment">
+					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-main"><?php echo $wo['lang']['save']; ?></button>
+				<button type="button" class="btn btn-main" @click="doSave"><?php echo $wo['lang']['save']; ?></button>
 			</div>
 		</div>
 	</div>
@@ -352,7 +382,7 @@ $(function() {
 	 Alpine.data("schoolData",() => ({
 		listSchool:[],
 		init() {
-			$.post(Wo_Ajax_Requests_File()+"f=get_school_list",{user_id:<?php echo $wo['setting']['user_id'];?>}).done(resp => {
+			$.post(Wo_Ajax_Requests_File()+"f=get_school_data",{user_id:<?php echo $wo['setting']['user_id'];?>}).done(resp => {
 				this.listSchool = resp.school;
 			})
 		},
@@ -361,7 +391,7 @@ $(function() {
 		}
 	 }));
 	 
-	  Alpine.data("schoolData",() => ({
+	  Alpine.data("schoolForm",() => ({
 		form:{
 			user_id:<?php echo $wo['setting']['user_id'];?>,
 			school_grade:"",
@@ -371,6 +401,45 @@ $(function() {
 			from_year:"",
 			to_year:"",
 			attachment:""
+		},
+		init() {
+			$( "#school_name" ).autocomplete({
+			  source: function( request, response ) {
+				$.ajax( {
+				  url: Wo_Ajax_Requests_File() + '?f=get_school_list',
+				  dataType: "json",
+				  data: {
+					term: request.term
+				  },
+				  success: function( data ) {
+					response( data );
+				  }
+				} );
+			  },
+			  minLength: 2,
+			  select: function( event, ui ) {
+				//log( "Selected: " + ui.item.value + " aka " + ui.item.id );
+			  }
+			} );
+		},
+		doSave() {
+			var files = $('#school_attachment')[0].files;
+			var formData = new FormData();
+			formData.append('file',files);
+			for (form in this.form) {
+				formData.append(form,this.form[form]);
+			}
+			
+			 $.ajax({
+				url: Wo_Ajax_Requests_File+'?f=upsert_school',
+				type: 'post',
+				data: formData,
+				contentType: false,
+				processData: false,
+				success: function(response){
+				 
+			  },
+           });
 		}
 	  }))
  });
