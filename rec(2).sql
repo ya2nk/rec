@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 24, 2021 at 05:51 PM
+-- Generation Time: Nov 25, 2021 at 04:24 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.3.27
 
@@ -878,7 +878,7 @@ INSERT INTO `wo_config` (`id`, `name`, `value`) VALUES
 (224, 'login_auth', '0'),
 (225, 'two_factor', '1'),
 (226, 'two_factor_type', 'email'),
-(227, 'last_notification_delete_run', '1637760404'),
+(227, 'last_notification_delete_run', '1637849834'),
 (228, 'ios_push_messages', '0'),
 (229, 'ios_m_push_id', ''),
 (230, 'ios_m_push_key', ''),
@@ -4857,7 +4857,7 @@ INSERT INTO `wo_users` (`user_id`, `username`, `email`, `password`, `first_name`
 (10, 'becker.burnice_761', 'stamm_ben_328@yahoo.com', '$2y$10$7klPTKt2tuYWZOZBX/pLzuSJ/HvfQpQq3zq4IcPFRRR9dY.Q2J26K', 'Gage', 'Romaguera', 'upload/photos/2021/11/i4l9k2iISqD5ylI51mlA_url_image.jpg', 'upload/photos/d-cover.jpg', '', '0', 0, '', '', '', NULL, '', 'male', '0000-00-00', 0, '', '', '', '', '', '', '', '', NULL, NULL, NULL, NULL, 'english', '8381f9cae5daf33e65c66b8fb2d10845', 'Fake', '::1', '0', '0', 'ifollow', '0', '0', '1', '0', '0', '0', 1636359486, '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '0', '0', '{\"e_liked\":1,\"e_shared\":1,\"e_wondered\":0,\"e_commented\":1,\"e_followed\":1,\"e_accepted\":1,\"e_mentioned\":1,\"e_joined_group\":1,\"e_liked_page\":1,\"e_visited\":1,\"e_profile_wall_post\":1,\"e_memory\":1}', '0', '1', '0', 'user', '11/2021', '0', '0', '0', '0', 0, '', 0, '0', 0, '0', 1636359494, '', '', 0, 0, '0', '', '0', '0', '0', '', '', '', '', '', '0.00', '0', '0', '0', 1, 0, '{\"post_count\":0,\"album_count\":0,\"following_count\":0,\"followers_count\":0,\"groups_count\":0,\"likes_count\":0}', NULL, 0, 0, 0, 0, '', 0, 1, NULL, 0, '', 0, '', '', '', '', '', 0, 'us', '', 0, NULL, 0),
 (11, 'ngaylord_845', 'thompson_sandrine_461@yahoo.com', '$2y$10$ZAxzxUqkuhSUW56RTeWDBO1.8NWCTkHkXOclJmoa3VVgkebYcwqrG', 'Diana', 'Osinski', 'upload/photos/2021/11/aDLqp1RTvhslYp4zNcZh_url_image.jpg', 'upload/photos/d-cover.jpg', '', '0', 0, '', '', '', NULL, '', 'female', '0000-00-00', 0, '', '', '', '', '', '', '', '', NULL, NULL, NULL, NULL, 'english', '6d8b312c840d147d0f052243031e4c03', 'Fake', '::1', '0', '0', 'ifollow', '0', '0', '1', '0', '0', '0', 1636359494, '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '0', '0', '{\"e_liked\":1,\"e_shared\":1,\"e_wondered\":0,\"e_commented\":1,\"e_followed\":1,\"e_accepted\":1,\"e_mentioned\":1,\"e_joined_group\":1,\"e_liked_page\":1,\"e_visited\":1,\"e_profile_wall_post\":1,\"e_memory\":1}', '0', '1', '0', 'user', '11/2021', '0', '0', '0', '0', 0, '', 0, '0', 0, '0', 1636359496, '', '', 0, 0, '0', '', '0', '0', '0', '', '', '', '', '', '0.00', '0', '0', '0', 1, 0, '{\"post_count\":0,\"album_count\":0,\"following_count\":0,\"followers_count\":0,\"groups_count\":0,\"likes_count\":0}', NULL, 0, 0, 0, 0, '', 0, 1, NULL, 0, '', 0, '', '', '', '', '', 0, 'us', '', 0, NULL, 0),
 (12, 'ned03_514', 'crooks_lesly_755@yahoo.com', '$2y$10$WJXue1UBMUxArdbKFzW5huU/0qpUeZnjdogOGMFTv0oxOakWjSstu', 'Reynold', 'Hagenes', 'upload/photos/2021/11/GQ8aiK2nFF9Xy2XmW9od_url_image.jpg', 'upload/photos/d-cover.jpg', '', '0', 0, '', '', '', NULL, '', 'male', '0000-00-00', 0, '', '', '', '', '', '', '', '', NULL, NULL, NULL, NULL, 'english', 'e5ccddf5cfe9163fcdf471e810c0b6e4', 'Fake', '::1', '0', '0', 'ifollow', '0', '0', '1', '0', '0', '0', 1636359496, '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '0', '0', '{\"e_liked\":1,\"e_shared\":1,\"e_wondered\":0,\"e_commented\":1,\"e_followed\":1,\"e_accepted\":1,\"e_mentioned\":1,\"e_joined_group\":1,\"e_liked_page\":1,\"e_visited\":1,\"e_profile_wall_post\":1,\"e_memory\":1}', '0', '1', '0', 'user', '11/2021', '0', '0', '0', '0', 0, '', 0, '0', 0, '0', 1636359499, '', '', 0, 0, '0', '', '0', '0', '0', '', '', '', '', '', '0.00', '0', '0', '0', 1, 0, '{\"post_count\":0,\"album_count\":0,\"following_count\":0,\"followers_count\":0,\"groups_count\":0,\"likes_count\":0}', NULL, 0, 0, 0, 0, '', 0, 1, NULL, 0, '', 0, '', '', '', '', '', 0, 'us', '', 0, NULL, 0),
-(13, 'jajang', 'jajang@mau.co.id', '$2y$10$gEPdyx8sHFLF1xEmISTa6.IQooMdzHzdaRrmJX9HxmjmGk7Yrlody', '', '', 'upload/photos/d-avatar.jpg', 'upload/photos/d-cover.jpg', '', '0', 0, '', '', '', '', '', 'male', '0000-00-00', 0, '', '', '', '', '', '', '', '', NULL, NULL, NULL, NULL, 'english', 'e03dbadb9fd39084f202ffcfd2e69efe', 'site', '127.0.0.1', '0', '0', 'ifollow', '0', '0', '1', '0', '0', '0', 1637771663, '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '0', '0', '{\"e_liked\":1,\"e_shared\":1,\"e_wondered\":0,\"e_commented\":1,\"e_followed\":1,\"e_accepted\":1,\"e_mentioned\":1,\"e_joined_group\":1,\"e_liked_page\":1,\"e_visited\":1,\"e_profile_wall_post\":1,\"e_memory\":1}', '0', '1', '1', 'user', '11/2021', '0', '0', '0', '0', 0, '', 0, '0', 0, '0', 1637591557, '', '', 0, 0, '0', '', '0', '0', '0', '', '', '', '', '', '0.00', '-6.8255744', '107.64288', '1638196368', 1, 0, '{\"post_count\":0,\"album_count\":0,\"following_count\":0,\"followers_count\":0,\"groups_count\":0,\"likes_count\":0}', NULL, 0, 0, 0, 0, '', 0, 1, NULL, 0, '', 0, '', '', '', '', '', 0, 'us', '', 0, NULL, 0);
+(13, 'jajang', 'jajang@mau.co.id', '$2y$10$gEPdyx8sHFLF1xEmISTa6.IQooMdzHzdaRrmJX9HxmjmGk7Yrlody', '', '', 'upload/photos/d-avatar.jpg', 'upload/photos/d-cover.jpg', '', '0', 0, '', '', '', '', '', 'male', '0000-00-00', 0, '', '', '', '', '', '', '', '', NULL, NULL, NULL, NULL, 'english', 'e03dbadb9fd39084f202ffcfd2e69efe', 'site', '127.0.0.1', '0', '0', 'ifollow', '0', '0', '1', '0', '0', '1', 1637851140, '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '0', '0', '{\"e_liked\":1,\"e_shared\":1,\"e_wondered\":0,\"e_commented\":1,\"e_followed\":1,\"e_accepted\":1,\"e_mentioned\":1,\"e_joined_group\":1,\"e_liked_page\":1,\"e_visited\":1,\"e_profile_wall_post\":1,\"e_memory\":1}', '0', '1', '1', 'user', '11/2021', '0', '0', '0', '0', 0, '', 0, '0', 0, '0', 1637591557, '', '', 0, 0, '0', '', '0', '0', '0', '', '', '', '', '', '0.00', '-6.8255744', '107.64288', '1638196368', 1, 1637850464, '{\"post_count\":\"0\",\"album_count\":\"0\",\"following_count\":\"0\",\"followers_count\":\"0\",\"groups_count\":\"0\",\"likes_count\":\"0\",\"mutual_friends_count\":0}', '{\"following_data\":[],\"followers_data\":[],\"likes_data\":[],\"groups_data\":[],\"mutual_friends_data\":[]}', 0, 0, 0, 0, '', 0, 1, NULL, 0, '', 0, '', '', '', '', '', 0, 'us', '', 0, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -4917,6 +4917,26 @@ CREATE TABLE `wo_user_gifts` (
   `gift_id` int(11) NOT NULL DEFAULT 0,
   `time` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wo_user_occupation`
+--
+
+CREATE TABLE `wo_user_occupation` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `company_name` varchar(255) NOT NULL,
+  `company_position` varchar(100) NOT NULL,
+  `company_city` varchar(100) NOT NULL,
+  `job_description` varchar(255) NOT NULL,
+  `still_work` int(11) NOT NULL,
+  `from_month` varchar(2) NOT NULL,
+  `from_year` int(11) NOT NULL,
+  `to_month` varchar(2) NOT NULL,
+  `to_year` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -6187,6 +6207,12 @@ ALTER TABLE `wo_user_gifts`
   ADD KEY `gift_id` (`gift_id`);
 
 --
+-- Indexes for table `wo_user_occupation`
+--
+ALTER TABLE `wo_user_occupation`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `wo_user_school`
 --
 ALTER TABLE `wo_user_school`
@@ -6927,6 +6953,12 @@ ALTER TABLE `wo_userstorymedia`
 --
 ALTER TABLE `wo_user_gifts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `wo_user_occupation`
+--
+ALTER TABLE `wo_user_occupation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `wo_user_school`

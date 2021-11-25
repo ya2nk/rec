@@ -359,7 +359,7 @@
 					<div class="row">
 						<div class="col-md-6 round-check">
 							<input type="checkbox" id="still_work" name="still_work" x-model="form.still_work" value="1">
-							<label for="completed"><?php echo Wo_Lang($wo['lang'],'still_work'); ?></label>
+							<label for="still_work"><?php echo Wo_Lang($wo['lang'],'still_work'); ?></label>
 						</div>
 					</div>
 					<div class="row">
@@ -657,7 +657,7 @@ $(function() {
 		editRow(index) {
 			//alert(index);
 			$('#work_form').modal('show');
-			this.$dispatch('set-row-work',this.listWork[index]);
+			this.$dispatch('set-row-work',this.listCompany[index]);
 		},
 		deleteRow(id) {
 			if (confirm(" Are you sure you want to delete this Occupation?")) {
@@ -689,7 +689,18 @@ $(function() {
 		init() {
 		},
 		doSave() {
-			
+			$.post(Wo_Ajax_Requests_File()+'?f=upsert_occupation',this.form).done(response => {
+				if (response.error == false) {
+						$('#work_form').modal('hide');
+						this.$dispatch('load-school-list');
+						$('.setting-profile-alert').html('<div class="alert alert-success">' + data.message + '</div>');
+						$('.alert-success').fadeIn('fast', function() {
+						  $(this).delay(2500).slideUp(500, function() {
+							$(this).remove();
+						  });
+						});
+					}
+			})
 		},
 		setRow(row) {
 			this.form = row;
