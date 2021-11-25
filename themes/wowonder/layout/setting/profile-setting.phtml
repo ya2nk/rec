@@ -96,7 +96,8 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<button type="button" class="btn btn-main" onclick="$('#school_list').modal('show')"><?php echo $wo['lang']['add_school']; ?></button>
+				<button type="button" class="btn btn-main" onclick="$('#school_list').modal('show')"><?php echo Wo_Lang($wo['lang'],'add_school'); ?></button>
+				<button type="button" class="btn btn-primary" onclick="$('#work_list').modal('show')"><?php echo Wo_Lang($wo['lang'],'add_occupation') ?></button>
 			</div>
 		</div>
 
@@ -179,13 +180,13 @@
 				<table class="table table-bordered">
 					<tr>
 						<th>#</th>
-						<th><?php echo $wo['lang']['school_grade']; ?></th>
-						<th><?php echo $wo['lang']['school_name']; ?></th>
-						<th><?php echo $wo['lang']['field_of_study']; ?></th>
-						<th><?php echo $wo['lang']['school_completed']; ?></th>
-						<th><?php echo $wo['lang']['from_year']; ?></th>
-						<th><?php echo $wo['lang']['to_year']; ?></th>
-						<th><?php echo $wo['lang']['school_attachment']; ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'school_grade'); ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'school_name'); ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'field_of_study'); ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'school_completed'); ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'from_year'); ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'to_year'); ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'school_attachment'); ?></th>
 						<th></th>
 					</tr>
 					<template x-for="(sch,index) in listSchool" :key="sch.school_name">
@@ -200,6 +201,55 @@
 						<td><a :href="'<?php echo $wo['config']['site_url']; ?>/'+sch.school_attachment" target="_blank"><?= $wo['lang']['school_attachment']; ?></a></td>
 						<td><button class="btn btn-primary btn-sm" @click="editRow(index)">Edit</button>
 							<button class="btn btn-danger btn-sm" @click="deleteRow(sch.id)">Del</button>
+						</td>
+					</tr>
+					</template>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-main" data-dismiss="modal"><?php echo $wo['lang']['close']; ?></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="work_list" role="dialog" x-data="workData" @load-work-list.window="getListWork">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span></button>
+				<h4 class="modal-title"><?php echo Wo_Lang($wo['lang'],'company_list'); ?></h4>
+			</div>
+			<div class="choose_rel_ship_alert">
+             
+			</div>
+			<div class="modal-body">
+				<button type="button" class="btn btn-info" @click="addWork()"><?php echo $wo['lang']['add']; ?></button>
+				<hr>
+				<table class="table table-bordered">
+					<tr>
+						<th>#</th>
+						<th><?php echo Wo_Lang($wo['lang'],'company_name'); ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'company_position'); ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'company_city'); ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'job_description'); ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'still_work'); ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'from_year'); ?></th>
+						<th><?php echo Wo_Lang(['lang'],'to_year'); ?></th>
+						<th></th>
+					</tr>
+					<template x-for="(cmp,index) in listCompany" :key="cmp.company_name">
+					<tr>
+						<td x-text="index+1"></td>
+						<td x-text="cmp.company_name"></td>
+						<td x-text="cmp.company_position"></td>
+						<td x-text="cmp.company_city"></td>
+						<td x-text="cmp.job_description"></td>
+						<td x-text="cmp.still_work"></td>
+						<td x-text="cmp.from_month+' - '+cmp.from_year"></td>
+						<td x-text="cmp.to_month+' - '+cmp.to_year"></td>
+						<td><button class="btn btn-primary btn-sm" @click="editRow(index)">Edit</button>
+							<button class="btn btn-danger btn-sm" @click="deleteRow(cmp.id)">Del</button>
 						</td>
 					</tr>
 					</template>
@@ -269,6 +319,84 @@
 						<label for="school_attachment"><?php echo $wo['lang']['school_attachment']; ?></label>  
 						<input type="file" id="school_attachment">
 					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-main" @click="doSave"><?php echo $wo['lang']['save']; ?></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="work_form" role="dialog" x-data="workForm" @set-row-work.window="setRow($event.detail)">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span></button>
+				<h4 class="modal-title"><?php echo $wo['lang']['school_form']; ?></h4>
+			</div>
+			<div class="choose_rel_ship_alert">
+             
+			</div>
+			<div class="modal-body">
+				<form>
+					<div class="wow_form_fields">
+						<label for="company_name"><?php echo Wo_Lang($wo['lang'],'company_name'); ?></label>  
+						<input x-model="form.company_name" id="company_name" name="company_name" type="text" placeholder="<?php echo Wo_Lang($wo['lang'],'company_name'); ?>">
+					</div>
+					<div class="wow_form_fields">
+						<label for="company_position"><?php echo Wo_Lang($wo['lang'],'company_position'); ?></label>  
+						<input x-model="form.company_position" id="company_position" name="company_position" type="text" placeholder="<?php echo Wo_Lang($wo['lang'],'company_position'); ?>">
+					</div>
+					<div class="wow_form_fields">
+						<label for="company_city"><?php echo Wo_Lang($wo['lang'],'company_city'); ?></label>  
+						<input x-model="form.company_city" id="company_city" name="company_city" type="text" placeholder="<?php echo Wo_Lang($wo['lang'],'company_city'); ?>">
+					</div>
+					<div class="wow_form_fields">
+						<label for="job_description"><?php echo Wo_Lang($wo['lang'],'job_description'); ?></label>  
+						<textarea x-model="form.job_description" id="job_description" name="job_description" placeholder="<?php echo Wo_Lang($wo['lang'],'job_description'); ?>"></textarea>
+					</div>
+					<div class="row">
+						<div class="col-md-6 round-check">
+							<input type="checkbox" id="still_work" name="still_work" x-model="form.still_work" value="1">
+							<label for="completed"><?php echo Wo_Lang($wo['lang'],'still_work'); ?></label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3">
+							<div class="wow_form_fields">
+								<label for="from_month"><?php echo Wo_Lang($wo['lang'],'from_month'); ?></label>  
+								<select x-model="form.from_month">
+									<?php foreach(range(1,12) as $month) : ?>
+									<option><?php echo sprintf('%02s',$month); ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="wow_form_fields">
+								<label for="from_year"><?php echo $wo['lang']['from_year']; ?></label>  
+								<input x-model="form.from_year" id="from_year" name="from_year" type="number">
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="wow_form_fields">
+								<label for="to_month"><?php echo Wo_Lang($wo['lang'],'to_month'); ?></label>  
+								<select x-model="form.to_month">
+									<?php foreach(range(1,12) as $month) : ?>
+									<option><?php echo sprintf('%02s',$month); ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="wow_form_fields">
+								<label for="to_year"><?php echo Wo_Lang($wo['lang'],'to_year'); ?></label>  
+								<input x-model="form.to_year" id="to_year" name="to_year" type="number">
+							</div>
+						</div>
+					</div>
+					
 				</form>
 			</div>
 			<div class="modal-footer">
@@ -432,7 +560,7 @@ $(function() {
 		}
 	 }));
 	 
-	  Alpine.data("schoolForm",() => ({
+	 Alpine.data("schoolForm",() => ({
 		form:{
 			user_id:<?php echo $wo['setting']['user_id'];?>,
 			school_grade:"",
@@ -492,6 +620,76 @@ $(function() {
 					}
 				},
            });
+		},
+		setRow(row) {
+			this.form = row;
+		}
+	  }))
+	  
+	  Alpine.data("workData",() => ({
+		listCompany:[],
+		init() {
+			this.getListWork()
+		},
+		getListWork() {
+			$.post(Wo_Ajax_Requests_File()+"?f=get_occupation_data",{user_id:<?php echo $wo['setting']['user_id'];?>}).done(resp => {
+				this.listCompany = resp;
+				
+			})
+		},
+		addWork() {
+			let form = {
+				user_id:<?php echo $wo['setting']['user_id'];?>,
+				company_name:"",
+				company_position:"",
+				company_city:"",
+				job_description:"",
+				still_work:0,
+				from_year:"",
+				from_month:"01",
+				to_year:"",
+				to_month:"01",
+				id:0
+			};
+			this.$dispatch('set-row-work',form);
+			$('#work_form').modal('show');
+		},
+		editRow(index) {
+			//alert(index);
+			$('#work_form').modal('show');
+			this.$dispatch('set-row-work',this.listWork[index]);
+		},
+		deleteRow(id) {
+			if (confirm(" Are you sure you want to delete this Occupation?")) {
+				$.post(Wo_Ajax_Requests_File()+'?f=delete_occupation',{id:id}).done(resp => {
+					if (resp.error == false) {
+						this.getListWork()
+					} else {
+						alert("Error Delete Occupation");
+					}
+				})
+			}
+		}
+	 }));
+	  
+	 Alpine.data("workForm",() => ({
+		form:{
+			user_id:<?php echo $wo['setting']['user_id'];?>,
+			company_name:"",
+			company_position:"",
+			company_city:"",
+			job_description:"",
+			still_work:0,
+			from_year:"",
+			from_month:"01",
+			to_year:"",
+			to_month:"01",
+			id:0
+		},
+		init() {
+		},
+		doSave() {
+			
 		},
 		setRow(row) {
 			this.form = row;

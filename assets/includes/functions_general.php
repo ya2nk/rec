@@ -28,6 +28,13 @@ function sanitize_output($buffer) {
 
     return $buffer;
 }
+
+function Wo_Lang($wo_lang,$lang_key)
+{
+    return isset($wo_lang[$key]) && $wo_lang[$lang_key] != ""  ? $wo_lang[$lang_key] : ucfirst(str_replace("_"," ",$lang_key));
+}
+
+
 function Wo_LoadPage($page_url = '') {
     global $wo,$db;
     $create_file = false;
