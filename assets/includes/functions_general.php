@@ -31,7 +31,7 @@ function sanitize_output($buffer) {
 
 function Wo_Lang($wo_lang,$lang_key)
 {
-    return isset($wo_lang[$key]) && $wo_lang[$lang_key] != ""  ? $wo_lang[$lang_key] : ucfirst(str_replace("_"," ",$lang_key));
+    return isset($wo_lang[$lang_key]) && $wo_lang[$lang_key] != ""  ? $wo_lang[$lang_key] : ucfirst(str_replace("_"," ",$lang_key));
 }
 
 

@@ -75,6 +75,18 @@
 					</div>
 				</div>
 			</div>
+			<div class="col-md-6 wow_frnd_field">
+				<div class="wow_form_fields">
+					<label><?php echo Wo_Lang($wo['lang'],'school_name'); ?></label>
+					<input type="text" placeholder="<?php echo Wo_Lang($wo['lang'],'school_name'); ?>" id="school_name_input" onkeydown="Wo_LoadNearByUsers()">
+				</div>
+			</div>
+			<div class="col-md-6 wow_frnd_field">
+				<div class="wow_form_fields">
+					<label><?php echo Wo_Lang($wo['lang'],'company_name'); ?></label>
+					<input type="text" placeholder="<?php echo Wo_Lang($wo['lang'],'company_name'); ?>" id="company_name_input" onkeydown="Wo_LoadNearByUsers()">
+				</div>
+			</div>
 		</div>
 	</div>
 	
@@ -153,6 +165,8 @@ for (var i = 0; i < planes.length; i++) {
 		var gender   = $(".nearby-users-gender-cont").find('.active').attr('data-gender');
 		var name     = $("#nearby-username").val();
 		var distance = $("#nearby-users-distance").val();
+		var school_name = $('#school_name_input').val();
+		var company_name = $('#company_name_input').val();
 		if (!gender && !name && !distance && !relship && !status) { return false;}
 		if (self) {
 			Wo_progressIconLoader($(self));
@@ -172,7 +186,9 @@ for (var i = 0; i < planes.length; i++) {
 				name:name,
 				distance:distance,
 				status:status,
-				relship:relship
+				relship:relship,
+				school_name:school_name,
+				company_name:company_name
 			},
 		})
 		.done(function(data) {
@@ -208,6 +224,8 @@ for (var i = 0; i < planes.length; i++) {
 		var gender   = $(".nearby-users-gender-cont").find('.active').attr('data-gender');
 		var name     = $("#nearby-username").val();
 		var distance = $("#nearby-users-distance").val();
+		var school_name = $('#school_name_input').val();
+		var company_name = $('#company_name_input').val();
 		if (!after_id && !gender && !name && !distance && !status && !relship) { return false;}
 		Wo_progressIconLoader($('#load_more_nearby_users'));
 		$.ajax({
@@ -222,8 +240,9 @@ for (var i = 0; i < planes.length; i++) {
 				name:name,
 				distance:distance,
 				relship:relship,
-				status:status
-
+				status:status,
+				school_name:school_name,
+				company_name:company_name
 			},
 		})
 		.done(function(data) {

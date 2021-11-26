@@ -7,6 +7,8 @@ if ($f == 'nearby_users' && $wo['config']['find_friends'] == 1) {
         $distance = (isset($_GET['distance'])) ? $_GET['distance'] : false;
         $relship  = (isset($_GET['relship'])) ? $_GET['relship'] : false;
         $status   = (isset($_GET['status'])) ? $_GET['status'] : false;
+        $school_name  = (isset($_GET['school_name'])) ? strtoupper($_GET['school_name']) : "";
+        $company_name  = (isset($_GET['company_name'])) ? strtoupper($_GET['company_name']) : "";
         $data     = array(
             'status' => 404
         );
@@ -17,7 +19,9 @@ if ($f == 'nearby_users' && $wo['config']['find_friends'] == 1) {
             'distance' => $distance,
             'offset' => $offset,
             'relship' => $relship,
-            'status' => $status
+            'status' => $status,
+            'school_name' => $school_name,
+            'company_name' => $company_name
         );
         $users    = Wo_GetNearbyUsers($filter);
         $users_info = array();
