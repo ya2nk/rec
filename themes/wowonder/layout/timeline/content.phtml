@@ -703,18 +703,20 @@ if ($wo['loggedin'] && $IsOwnerUser) {
             <li class="list-group-item" style="padding-top:0; padding-bottom:0;">
                 <hr>
             </li>
-            <?php } ?>
-            <?php if(!empty($wo['user_profile']['working'])) {  ?>
-            <li class="list-group-item">
+            <?php }$workings = Wo_GetUserCompany($wo['user_profile']['user_id']); ?>
+            <?php if(count($workings) > 0) {  foreach ($working as $work) { ?>
+       
+			<li class="list-group-item">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M10,2H14A2,2 0 0,1 16,4V6H20A2,2 0 0,1 22,8V19A2,2 0 0,1 20,21H4C2.89,21 2,20.1 2,19V8C2,6.89 2.89,6 4,6H8V4C8,2.89 8.89,2 10,2M14,6V4H10V6H14Z"></path></svg>
-                <span><?php echo $wo['lang']['working_at'];?> <?php if (!empty($wo['user_profile']['working_link'])) { ?><a href="<?php echo $wo['user_profile']['working_link']; ?>" target="_blank" rel="nofollow"><?php echo $wo['user_profile']['working']; ?></a> <?php } else { echo $wo['user_profile']['working'];} ?></span>
+                <span> <?php echo $work['company_name'] ?> ( <?php echo $work['from_year']." - ".$work['to_year']; ?> )</span>
             </li>
-            <?php } ?>
-            <?php if(!empty($wo['user_profile']['school'])) {  ?>
+            <?php } } $schools = Wo_GetUserSchool($wo['user_profile']['user_id']);?>
+            <?php if(count($schools) > 0) { foreach ($schools as $sch ) {  ?>
             <li class="list-group-item">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M12,3L1,9L12,15L21,10.09V17H23V9M5,13.18V17.18L12,21L19,17.18V13.18L12,17L5,13.18Z"></path></svg>
-                <span><?php echo ($wo['user_profile']['school_completed'] == 1)   ? $wo['lang']['studied_at'] : $wo['lang']['studying_at'] ;?> <?php echo $wo['user_profile']['school']; ?></span>
+                <span><?php echo $sch['school_name']; ?> <br>( <?php echo $sch['from_year']." - ".$sch['to_year']; ?> )</span>
             </li>
+			<?php } ?>
             <li class="list-group-item" style="padding-top:0; padding-bottom:0;">
                 <hr>
             </li>

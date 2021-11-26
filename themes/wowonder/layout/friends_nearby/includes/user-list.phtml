@@ -26,6 +26,18 @@
 							<div><p><?php echo $wo['lang']['close_to_u']; ?> <?php echo number_format($wo['UsersList']['distance'],3); ?>/k</p></div>
 						</li>
 					<?php endif; ?>
+					<?php if (count($wo['UsersList']['user_data']['school']) > 0) :?>
+					<li>
+						<span><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M24 24h-24v-2h24v2zm-1-3h-22v-1h22v1zm-17-1.999h-4v-6.001c-.552 0-1-.448-1-1s.448-1 1-1h4c.552 0 1 .448 1 1s-.448 1-1 1v6.001zm8 0h-4v-6.001c-.552 0-1-.448-1-1s.448-1 1-1h4c.552 0 1 .448 1 1s-.448 1-1 1v6.001zm8 0h-4v-6.001c-.552 0-1-.448-1-1s.448-1 1-1h4c.552 0 1 .448 1 1s-.448 1-1 1v6.001zm2.001-9.001h-24.001l12-10 12.001 10zm-18.477-2h12.953l-6.477-5.397-6.476 5.397zm6.471-4c.966 0 1.75.784 1.75 1.75s-.784 1.75-1.75 1.75-1.75-.784-1.75-1.75.784-1.75 1.75-1.75z"/></svg></span>
+						<div><p><?php echo $wo['UsersList']['user_data']['school'][0]['school_name'];?></p></div>
+					</li>
+					<?php endif; ?>
+					<?php if (count($wo['UsersList']['user_data']['school']) > 0) :?>
+					<li>
+						<span><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M6 7v-7h13v10h5v14h-23v-17h5zm0 16v-4h-1v4h1zm8-4h-3v4h3v-4zm6 0h-1v4h1v-4zm2-7h-3v6h2v4h1v-10zm-5-10h-9v20h1v-5h7v5h1v-20zm-13 20v-4h2v-9h-3v13h1zm17-6h-1v-2h1v2zm-17-2h1v2h-1v-2zm8 1h-2v-2h2v2zm3 0h-2v-2h2v2zm-10-4v2h-1v-2h1zm7 1h-2v-2h2v2zm3 0h-2v-2h2v2zm-3-3h-2v-2h2v2zm3 0h-2v-2h2v2zm-3-3h-2v-2h2v2zm3 0h-2v-2h2v2z"/></svg>
+						<div><p><?php echo $wo['UsersList']['user_data']['company'][0]['company_name'];?></p></div>
+					</li>
+					<?php endif; ?>
 				</ul>
 			</div>
 		</div>

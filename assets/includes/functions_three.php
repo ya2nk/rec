@@ -6084,12 +6084,23 @@ function Wo_GetNearbyUsers($args = array()) {
     SELECT `A`.`user_id`, ( {$unit} * acos(cos(radians('$user_lat'))  * 
     cos(radians(lat)) * cos(radians(lng) - radians('$user_lng')) + 
     sin(radians('$user_lat')) * sin(radians(lat ))) ) AS distance 
-    FROM $t_users AS `A` LEFT JOIN `wo_user_school` AS `B` ON `A`.`user_id` = `B`.`user_id` WHERE `A`.`user_id` <> '$user'   {$sub_sql}
+    FROM $t_users AS `A` LEFT JOIN `wo_user_school` AS `B` ON `A`.`user_id` = `B`.`user_id` 
+	LEFT JOIN wo_user_occupation AS `C` ON `A`.`user_id` = `C`.`user_id`
+	WHERE `A`.`user_id` <> '$user'   {$sub_sql}
     AND `A`.`user_id` NOT IN (SELECT `follower_id` FROM $t_followers WHERE `follower_id` <> {$user} AND `following_id` = {$user} AND `active` = '1')
     AND `A`.`user_id` NOT IN (SELECT `following_id` FROM $t_followers WHERE `follower_id` = {$user} AND `following_id` <> {$user} AND `active` = '1')
-    AND `lat` <> 0 AND `lng` <> 0 AND upper(`B`.`school_name`) LIKE '%".$args['school_name']."%'
+    AND `lat` <> 0 AND `lng` <> 0 AND upper(`B`.`school_name`) LIKE '%".$args['school_name']."%' AND upper(`C`.`company_name`) LIKE '%".$args['company_name']."%'
     GROUP BY `A`.`user_id`,distance
-    HAVING distance < '$distance' ORDER BY `A`.`user_id` DESC LIMIT 0, $limit";
+    HAVING distance < '$distance' ORDER BY `A`.`user_id` DESC LIMIT 0, $limit"; 
+	
+	/*$sql   = "
+    SELECT `A`.`user_id`, ( {$unit} * acos(cos(radians('$user_lat'))  * 
+    cos(radians(lat)) * cos(radians(lng) - radians('$user_lng')) + 
+    sin(radians('$user_lat')) * sin(radians(lat ))) ) AS distance 
+    FROM $t_users AS `A` LEFT JOIN `wo_user_school` AS `B` ON `A`.`user_id` = `B`.`user_id` WHERE `A`.`user_id` <> '$user'   {$sub_sql}
+    AND upper(`B`.`school_name`) LIKE '%".$args['school_name']."%'
+    GROUP BY `A`.`user_id`,distance
+    ORDER BY `A`.`user_id` DESC LIMIT 0, $limit"; */
    
         $query = mysqli_query($sqlConnect, $sql);
         if (mysqli_num_rows($query)) {
@@ -6097,6 +6108,7 @@ function Wo_GetNearbyUsers($args = array()) {
                 $fetched_data['user_data']        = Wo_UserData($fetched_data['user_id']);
                 $fetched_data['user_data']['age'] = Wo_GetUserCountryName($fetched_data['user_data']);
                 $fetched_data['user_data']['school'] = Wo_GetUserSchool($fetched_data['user_id'],$args['school_name']);
+				 $fetched_data['user_data']['company'] = Wo_GetUserCompany($fetched_data['user_id'],$args['company_name']);
                 $fetched_data['user_geoinfo']     = $fetched_data['user_data']['lat'] . ',' . $fetched_data['user_data']['lng'];
                 if ($fetched_data['user_data']['share_my_location'] == 1) {
                     $data[] = $fetched_data;
@@ -6109,10 +6121,23 @@ function Wo_GetNearbyUsers($args = array()) {
     return $data;
 }
 
-function Wo_GetUserSchool($user_id,$school_name)
+function Wo_GetUserSchool($user_id,$school_name="")
 {
     global $sqlConnect;
     $query = mysqli_query($sqlConnect, "SELECT * FROM wo_user_school WHERE user_id=".$user_id." AND upper(school_name) LIKE '%$school_name%'");
+    $data = [];
+    if (mysqli_num_rows($query) > 0) {
+        while($row = mysqli_fetch_assoc($query)) {
+            $data[] = $row;
+        }
+    }
+    return $data;
+}
+
+function Wo_GetUserCompany($user_id,$company_name="")
+{
+    global $sqlConnect;
+    $query = mysqli_query($sqlConnect, "SELECT * FROM wo_user_occupation WHERE user_id=".$user_id." AND upper(company_name) LIKE '%$company_name%'");
     $data = [];
     if (mysqli_num_rows($query) > 0) {
         while($row = mysqli_fetch_assoc($query)) {
@@ -6134,7 +6159,9 @@ function Wo_GetNearbyUsersCount($args = array()) {
         "distance" => false,
         "relship" => false,
         "status" => false,
-        "limit" => 20
+        "limit" => 20,
+		"school_name" => "",
+        "company_name" => "",
     );
     $args         = array_merge($options, $args);
     $offset       = Wo_Secure($args['offset']);
@@ -6178,7 +6205,7 @@ function Wo_GetNearbyUsersCount($args = array()) {
     if ($gender && in_array($gender, array_keys($wo['genders']))) {
         $sub_sql .= " AND `gender` = '$gender' ";
     }
-    $sql   = "
+    /*$sql   = "
     SELECT COUNT(user_id), ( {$unit} * acos(cos(radians('$user_lat'))  * 
     cos(radians(lat)) * cos(radians(lng) - radians('$user_lng')) + 
     sin(radians('$user_lat')) * sin(radians(lat ))) ) AS distance 
@@ -6186,7 +6213,19 @@ function Wo_GetNearbyUsersCount($args = array()) {
     AND `user_id` NOT IN (SELECT `follower_id` FROM $t_followers WHERE `follower_id` <> {$user} AND `following_id` = {$user} AND `active` = '1')
     AND `user_id` NOT IN (SELECT `following_id` FROM $t_followers WHERE `follower_id` = {$user} AND `following_id` <> {$user} AND `active` = '1')
     AND `lat` <> 0 AND `lng` <> 0 GROUP BY user_id
-    HAVING distance < '$distance' ORDER BY `user_id` DESC ";
+    HAVING distance < '$distance' ORDER BY `user_id` DESC "; */
+	$sql   = "
+    SELECT `A`.`user_id`, ( {$unit} * acos(cos(radians('$user_lat'))  * 
+    cos(radians(lat)) * cos(radians(lng) - radians('$user_lng')) + 
+    sin(radians('$user_lat')) * sin(radians(lat ))) ) AS distance 
+    FROM $t_users AS `A` LEFT JOIN `wo_user_school` AS `B` ON `A`.`user_id` = `B`.`user_id` 
+	LEFT JOIN wo_user_occupation AS `C` ON `A`.`user_id` = `C`.`user_id`
+	WHERE `A`.`user_id` <> '$user'   {$sub_sql}
+    AND `A`.`user_id` NOT IN (SELECT `follower_id` FROM $t_followers WHERE `follower_id` <> {$user} AND `following_id` = {$user} AND `active` = '1')
+    AND `A`.`user_id` NOT IN (SELECT `following_id` FROM $t_followers WHERE `follower_id` = {$user} AND `following_id` <> {$user} AND `active` = '1')
+    AND `lat` <> 0 AND `lng` <> 0 AND upper(`B`.`school_name`) LIKE '%".$args['school_name']."%' AND upper(`C`.`company_name`) LIKE '%".$args['company_name']."%'
+    GROUP BY `A`.`user_id`,distance
+    HAVING distance < '$distance' ORDER BY `A`.`user_id` DESC"; 
     $query = mysqli_query($sqlConnect, $sql);
     return mysqli_num_rows($query);
 }

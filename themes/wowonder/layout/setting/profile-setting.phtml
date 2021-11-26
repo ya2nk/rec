@@ -169,7 +169,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span></button>
-				<h4 class="modal-title"><?php echo $wo['lang']['school_list']; ?></h4>
+				<h4 class="modal-title"><?php echo Wo_Lang($wo['lang'],'school_list'); ?></h4>
 			</div>
 			<div class="choose_rel_ship_alert">
              
@@ -267,7 +267,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span></button>
-				<h4 class="modal-title"><?php echo $wo['lang']['school_form']; ?></h4>
+				<h4 class="modal-title"><?php echo Wo_Lang($wo['lang'],'school_form'); ?></h4>
 			</div>
 			<div class="choose_rel_ship_alert">
              
@@ -333,7 +333,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span></button>
-				<h4 class="modal-title"><?php echo $wo['lang']['school_form']; ?></h4>
+				<h4 class="modal-title"><?php echo Wo_Lang($wo['lang'],'working_form'); ?></h4>
 			</div>
 			<div class="choose_rel_ship_alert">
              
@@ -692,7 +692,7 @@ $(function() {
 			$.post(Wo_Ajax_Requests_File()+'?f=upsert_occupation',this.form).done(response => {
 				if (response.error == false) {
 						$('#work_form').modal('hide');
-						this.$dispatch('load-school-list');
+						this.$dispatch('load-work-list');
 						$('.setting-profile-alert').html('<div class="alert alert-success">' + data.message + '</div>');
 						$('.alert-success').fadeIn('fast', function() {
 						  $(this).delay(2500).slideUp(500, function() {
