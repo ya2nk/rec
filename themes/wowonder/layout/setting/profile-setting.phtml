@@ -97,7 +97,71 @@
 		<div class="row">
 			<div class="col-md-12">
 				<button type="button" class="btn btn-main" onclick="$('#school_list').modal('show')"><?php echo Wo_Lang($wo['lang'],'add_school'); ?></button>
+				<hr>
+				<div class="table-responsive mt-2" x-data="tableSchool" @list-school.window="listSchool = $event.detail">
+				
+				<table class="table table-bordered">
+					<tr>
+						<th>#</th>
+						<th><?php echo Wo_Lang($wo['lang'],'school_grade'); ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'school_name'); ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'field_of_study'); ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'school_completed'); ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'from_year'); ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'to_year'); ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'school_attachment'); ?></th>
+						<th></th>
+					</tr>
+					<template x-for="(sch,index) in listSchool" :key="sch.school_name">
+					<tr>
+						<td x-text="index+1"></td>
+						<td x-text="sch.school_grade"></td>
+						<td x-text="sch.school_name"></td>
+						<td x-text="sch.field_of_study"></td>
+						<td x-text="sch.school_completed"></td>
+						<td x-text="sch.from_year"></td>
+						<td x-text="sch.to_year"></td>
+						<td><a :href="'<?php echo $wo['config']['site_url']; ?>/'+sch.school_attachment" target="_blank"><?= $wo['lang']['school_attachment']; ?></a></td>
+						<td><button class="btn btn-primary btn-sm" @click="editRow(index)">Edit</button>
+							<button class="btn btn-danger btn-sm" @click="deleteRow(sch.id)">Del</button>
+						</td>
+					</tr>
+					</template>
+				</table>
+				</div>
+				<hr>
 				<button type="button" class="btn btn-primary" onclick="$('#work_list').modal('show')"><?php echo Wo_Lang($wo['lang'],'add_occupation') ?></button>
+				<hr>
+				<div class="table-responsive mt-2" x-data="tableWork" @list-company.window="listCompany = $event.detail">
+				<table class="table table-bordered">
+					<tr>
+						<th>#</th>
+						<th><?php echo Wo_Lang($wo['lang'],'company_name'); ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'company_position'); ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'company_city'); ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'job_description'); ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'still_work'); ?></th>
+						<th><?php echo Wo_Lang($wo['lang'],'from_year'); ?></th>
+						<th><?php echo Wo_Lang(['lang'],'to_year'); ?></th>
+						<th></th>
+					</tr>
+					<template x-for="(cmp,index) in listCompany" :key="cmp.company_name">
+					<tr>
+						<td x-text="index+1"></td>
+						<td x-text="cmp.company_name"></td>
+						<td x-text="cmp.company_position"></td>
+						<td x-text="cmp.company_city"></td>
+						<td x-text="cmp.job_description"></td>
+						<td x-text="cmp.still_work"></td>
+						<td x-text="cmp.from_month+' - '+cmp.from_year"></td>
+						<td x-text="cmp.to_month+' - '+cmp.to_year"></td>
+						<td><button class="btn btn-primary btn-sm" @click="editRow(index)">Edit</button>
+							<button class="btn btn-danger btn-sm" @click="deleteRow(cmp.id)">Del</button>
+						</td>
+					</tr>
+					</template>
+				</table>
+				</div>
 			</div>
 		</div>
 
@@ -525,6 +589,7 @@ $(function() {
 		getListSchool() {
 			$.post(Wo_Ajax_Requests_File()+"?f=get_school_data",{user_id:<?php echo $wo['setting']['user_id'];?>}).done(resp => {
 				this.listSchool = resp;
+				this.$dispatch('list-school',this.listSchool);
 				
 			})
 		},
@@ -559,6 +624,14 @@ $(function() {
 			}
 		}
 	 }));
+	 
+	 Alpine.data("tableSchool",() => ({
+	 	listSchool:[],
+	 }))
+	 
+	 Alpine.data("tableWork",() => ({
+	 	listCompany:[],
+	 }))
 	 
 	 Alpine.data("schoolForm",() => ({
 		form:{
@@ -611,12 +684,7 @@ $(function() {
 					if (response.error == false) {
 						$('#school_form').modal('hide');
 						this.$dispatch('load-school-list');
-						$('.setting-profile-alert').html('<div class="alert alert-success">' + data.message + '</div>');
-						$('.alert-success').fadeIn('fast', function() {
-						  $(this).delay(2500).slideUp(500, function() {
-							$(this).remove();
-						  });
-						});
+						
 					}
 				},
            });
@@ -634,7 +702,7 @@ $(function() {
 		getListWork() {
 			$.post(Wo_Ajax_Requests_File()+"?f=get_occupation_data",{user_id:<?php echo $wo['setting']['user_id'];?>}).done(resp => {
 				this.listCompany = resp;
-				
+				this.$dispatch('list-work',this.listCompany);
 			})
 		},
 		addWork() {
@@ -693,12 +761,7 @@ $(function() {
 				if (response.error == false) {
 						$('#work_form').modal('hide');
 						this.$dispatch('load-work-list');
-						$('.setting-profile-alert').html('<div class="alert alert-success">' + data.message + '</div>');
-						$('.alert-success').fadeIn('fast', function() {
-						  $(this).delay(2500).slideUp(500, function() {
-							$(this).remove();
-						  });
-						});
+						
 					}
 			})
 		},
