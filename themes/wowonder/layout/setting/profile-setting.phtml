@@ -132,7 +132,7 @@
 				<hr>
 				<button type="button" class="btn btn-primary" onclick="$('#work_list').modal('show')"><?php echo Wo_Lang($wo['lang'],'add_occupation') ?></button>
 				<hr>
-				<div class="table-responsive mt-2" x-data="tableWork" @list-company.window="listCompany = $event.detail">
+				<div class="table-responsive mt-2" x-data="tableWork" @list-work.window="listCompany = $event.detail">
 				<table class="table table-bordered">
 					<tr>
 						<th>#</th>

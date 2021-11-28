@@ -714,7 +714,7 @@ if ($wo['loggedin'] && $IsOwnerUser) {
             <?php if(count($schools) > 0) { foreach ($schools as $sch ) {  ?>
             <li class="list-group-item">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M12,3L1,9L12,15L21,10.09V17H23V9M5,13.18V17.18L12,21L19,17.18V13.18L12,17L5,13.18Z"></path></svg>
-                <span><?php echo $sch['school_name']; ?> <br>( <?php echo $sch['from_year']." - ".$sch['to_year']; ?> )</span>
+                <span><?php echo $sch['school_name']; ?> <br> ( <?php echo $sch['school_grade']; ?> ) ( <?php echo $sch['from_year']." - ".$sch['to_year']; ?> )</span>
             </li>
 			<?php } ?>
             <li class="list-group-item" style="padding-top:0; padding-bottom:0;">
